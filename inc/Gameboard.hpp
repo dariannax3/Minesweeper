@@ -1,9 +1,8 @@
-﻿#pragma once
+#pragma once
+
 #include <memory>
 
-#include "RandomGeneratorI.hpp"
-
-using RandomGeneratorPtr = std::shared_ptr<RandomGeneratorI>;
+#include "RandomGenerator.hpp"
 
 enum class Visibility { covered, uncovered };
 enum class Bombility { empty, mined };
@@ -16,7 +15,7 @@ struct Field {
 };
 
 using Board = std::array<std::array<Field, 8>, 8>;
-
+using RandomFromRangeGeneratorPtr = std::shared_ptr<RandomFromRangeGeneratorI>;
 class Gameboard {
  public:
   int getWidth() const;
@@ -35,6 +34,6 @@ class Gameboard {
  private:
   void uncoverOneFieldIfPossible(const int x, const int y);
 
-  std::shared_ptr<RandomGeneratorI> generator_;
+  RandomFromRangeGeneratorPtr generator_;
   Board board_;
 };

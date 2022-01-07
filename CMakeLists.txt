@@ -18,13 +18,18 @@ add_library(
   minesweeper-lib
   src/Minesweeper.cpp
   src/Gameboard.cpp
+<<<<<<< HEAD
   src/Viewer.cpp
+=======
+  src/RandomGenerator.cpp
+>>>>>>> Add RandomGenerator
 )
 
 add_executable(
   minesweeper-uts
   tests/GameboardTest.cpp
   tests/MinesweeperTest.cpp
+  tests/RandomGeneratorTest.cpp
 )
 
 target_link_libraries(
