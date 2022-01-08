@@ -1,7 +1,6 @@
 #include "../inc/Gameboard.hpp"
 #include <iostream>
-#include <chrono>
-#include <unistd.h>
+
 
 void Gameboard::uncoverAllFields() {
     for (auto& row : board_) {
@@ -10,15 +9,16 @@ void Gameboard::uncoverAllFields() {
         }
     }
 }
-bool Gameboard::isFieldInGameboard(const int x, const int y) {
-    return x >= 0 && y >= 0 && x <= getWidth() && y <= getHeight();
+
+bool Gameboard::isFieldInGameboard(const int x, const int y) const {
+    return x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
 }
 
-bool Gameboard::isFieldMined(const int x, const int y) {
+bool Gameboard::isFieldMined(const int x, const int y) const {
     return isFieldInGameboard(x, y) && getFieldAt(x, y).bombility == Bombility::mined;
 }
 
-bool Gameboard::isFieldAdjacentToBomb(const int x, const int y) {
+bool Gameboard::isFieldAdjacentToBomb(const int x, const int y) const {
     return (   isFieldMined(x + 1, y) 
             || isFieldMined(x - 1, y) 
             || isFieldMined(x, y + 1) 
@@ -31,32 +31,32 @@ bool Gameboard::isFieldAdjacentToBomb(const int x, const int y) {
 
 
 void Gameboard::uncoverOneFieldIfPossible(const int x, const int y) {
-    if(getFieldAt(x, y).visibility == Visibility::covered &&
-       isFieldInGameboard(x, y))
+    if(isFieldInGameboard(x, y) 
+    && getFieldAt(x, y).visibility == Visibility::covered 
+    && getFieldAt(x, y).flagability == Flagability::unmarked)
         uncoverOneField(x, y);
 }
 
 void Gameboard::uncoverOneField(const int x, const int y) {
-    printBoardVisibility();
-    
     if(isFieldAdjacentToBomb(x, y)) {
         getFieldAt(x, y).visibility = Visibility::uncovered;
         return;
     }
-    
+
     getFieldAt(x, y).visibility = Visibility::uncovered;
 
     uncoverOneFieldIfPossible(x - 1, y - 1);
     uncoverOneFieldIfPossible(x - 1, y);
     uncoverOneFieldIfPossible(x - 1, y + 1);
-    uncoverOneFieldIfPossible(x, y + 1);
-    uncoverOneFieldIfPossible(x + 1, y + 1);
-    uncoverOneFieldIfPossible(x + 1, y);
     uncoverOneFieldIfPossible(x + 1, y - 1);
+    uncoverOneFieldIfPossible(x + 1, y);
+    uncoverOneFieldIfPossible(x + 1, y + 1);
     uncoverOneFieldIfPossible(x, y - 1);
+    uncoverOneFieldIfPossible(x, y);
+    uncoverOneFieldIfPossible(x, y + 1);
 }
 
-int Gameboard::countAdjacentBombAt(const int x, const int y){
+int Gameboard::countAdjacentBombAt(const int x, const int y) const {
     int counter = 0;
 
     if(isFieldMined(x + 1, y)){
@@ -86,32 +86,16 @@ int Gameboard::countAdjacentBombAt(const int x, const int y){
     return counter;
 }
 
-void Gameboard::printBoardVisibility(){
-    for(int i = 0; i < getWidth(); i++){
-        for(int j = 0; j < getHeight(); j++)
-        {
-            if( getFieldAt(i, j).visibility == Visibility::covered){
-                std::cout << " X";
-            }
-            else {
-                if( isFieldAdjacentToBomb(i, j) )
-                    std::cout << " " <<  countAdjacentBombAt(i, j);
-                else 
-                    std::cout << " O";
-            }
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-    usleep(1000000);
-}
-
 int Gameboard::getWidth() const {
     return board_[0].size();
 }
 
 int Gameboard::getHeight() const {
     return board_.size();
+}
+
+const Field& Gameboard::getFieldAt(int row, int column) const {
+    return board_[row][column];
 }
 
 Field& Gameboard::getFieldAt(int row, int column) {
@@ -122,3 +106,8 @@ void Gameboard::setBomb(const int x, const int y) {
     Field& field = getFieldAt(x, y);
     field.bombility = Bombility::mined;
 }
+
+void Gameboard::flagField(const int x, const int y){
+    Field& field = getFieldAt(x, y);
+    field.flagability = Flagability::marked;
+};

@@ -10,26 +10,32 @@ enum class Visibility { covered,
 enum class Bombility { empty,
                        mined };
 
+// don't ask again
+enum class Flagability { unmarked,
+                       marked };
+
 struct Field {
     Visibility visibility = Visibility::covered;
     Bombility bombility = Bombility::empty;
+    Flagability flagability = Flagability::unmarked;
 };
 
 using Board = std::array<std::array<Field, 8>, 8>;
 
 class Gameboard {
 public:
-    void uncoverAllFields();
-    void uncoverOneField(const int x, const int y);
     int getWidth() const;
     int getHeight() const;
+    int countAdjacentBombAt(const int x, const int y) const;
+    bool isFieldAdjacentToBomb(const int x, const int y) const;
+    bool isFieldInGameboard(const int x, const int y) const;
+    bool isFieldMined(const int x, const int y) const;
     void setBomb(const int x, const int y);
+    void uncoverAllFields();
+    void uncoverOneField(const int x, const int y);
+    void flagField(const int x, const int y);
+    const Field& getFieldAt(const int row, const int column) const;
     Field& getFieldAt(const int row, const int column);
-    bool isFieldAdjacentToBomb(const int x, const int y);
-    bool isFieldInGameboard(const int x, const int y);
-    bool isFieldMined(const int x, const int y);
-    int countAdjacentBombAt(const int x, const int y);
-    void printBoardVisibility();
 
 private:
     void uncoverOneFieldIfPossible(const int x, const int y);
