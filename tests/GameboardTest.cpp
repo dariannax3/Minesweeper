@@ -32,6 +32,10 @@ protected:
         viewer.drawBoard(gameboard);
     }
 
+    bool isRangeCorrect(int row_start, int row_end, int column_start, int column_end){
+        return row_start > 7 || row_start < 0 || row_end > 7 || row_end < 0 || column_start > 7 || column_start < 0 || column_end > 7 || column_end < 0;
+    }
+
     void checkVisibilityOfAllFields(Visibility visibility) {
         for (int row = 0; row < gameboard.getHeight(); row++) {
             for (int column = 0; column < gameboard.getWidth(); column++) {
@@ -41,7 +45,11 @@ protected:
     }
 
     void checkVisibilityOfSpecificRowsAndFields(int row_start, int row_end, int column_start, int column_end, Visibility visibility) {
-
+        if(isRangeCorrect(row_start, row_end, column_start, column_end)){
+            std::cout << "Given range is out of board!" << std::endl;
+            return;
+        }
+        
         for (int row = row_start; row <= row_end; row++) {
             for (int column = column_start; column <= column_end; column++) {
                 EXPECT_EQ(gameboard.getFieldAt(row, column).visibility, visibility);
