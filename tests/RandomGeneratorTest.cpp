@@ -7,7 +7,6 @@
 TEST(RandomRangeGeneratorTest,
      GivenRangeFromZeroToTenExpectRandomFromZeroToTen) {
   StdRandomRangeGenerator random_generator(0, 10);
-
   auto generated = random_generator.getRandom();
 
   EXPECT_LE(0, generated);
