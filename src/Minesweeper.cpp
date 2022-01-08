@@ -1,5 +1,3 @@
 #include "../inc/Minesweeper.hpp"
 
-std::string Minesweeper::sayHello() {
-    return "Hello!";
-}
+std::string Minesweeper::sayHello() { return "Hello!"; }

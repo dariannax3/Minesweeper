@@ -1,16 +1,18 @@
 ﻿#pragma once
-#include "Gameboard.hpp"
-#include <chrono>
 #include <unistd.h>
+
+#include <chrono>
 #include <iostream>
 
+#include "Gameboard.hpp"
+
 class ViewerI {
-public:
-   virtual void drawBoard(const Gameboard& gameboard) = 0;
-   virtual ~ViewerI(){}
+ public:
+  virtual void drawBoard(const Gameboard& gameboard) = 0;
+  virtual ~ViewerI() {}
 };
 
 class StdViewer : public ViewerI {
-public:
-    void drawBoard(const Gameboard& gameboard) override;
+ public:
+  void drawBoard(const Gameboard& gameboard) override;
 };
