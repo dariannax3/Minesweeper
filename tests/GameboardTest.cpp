@@ -12,6 +12,7 @@ class GameboardTestFixture : public ::testing::Test {
     viewer.drawBoard(gameboard);
   }
 
+<<<<<<< HEAD
   bool isRangeCorrect(int row_start, int row_end, int column_start,
                       int column_end) {
     return row_start > gameboard.getHeight() || row_start < 0 ||
@@ -49,6 +50,11 @@ class GameboardTestFixture : public ::testing::Test {
     gameboard.flagField(x, y);
     gameboard.flagField(x, y + 1);
   }
+=======
+class MockRandomGenerator : public RandomRangeGeneratorI {
+ public:
+  MOCK_METHOD(int, getRandom, (), (override));
+>>>>>>> Refactor name RandomRangeGenerator
 };
 
 TEST_F(

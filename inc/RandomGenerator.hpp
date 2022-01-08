@@ -4,13 +4,13 @@
 #include <cstdlib>
 #include <ctime>
 
-class RandomFromRangeGeneratorI {
+class RandomRangeGeneratorI {
  public:
   virtual int getRandom() = 0;
-  virtual ~RandomFromRangeGeneratorI() {}
+  virtual ~RandomRangeGeneratorI() {}
 };
 
-class StdRandomRangeGenerator : public RandomFromRangeGeneratorI {
+class StdRandomRangeGenerator : public RandomRangeGeneratorI {
  public:
   StdRandomRangeGenerator(int lower_boundary, int upper_boundary);
   int getRandom() override;

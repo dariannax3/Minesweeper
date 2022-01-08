@@ -15,7 +15,7 @@ struct Field {
 };
 
 using Board = std::array<std::array<Field, 8>, 8>;
-using RandomFromRangeGeneratorPtr = std::shared_ptr<RandomFromRangeGeneratorI>;
+using RandomRangeGeneratorPtr = std::shared_ptr<RandomRangeGeneratorI>;
 class Gameboard {
  public:
   int getWidth() const;
@@ -34,6 +34,6 @@ class Gameboard {
  private:
   void uncoverOneFieldIfPossible(const int x, const int y);
 
-  RandomFromRangeGeneratorPtr generator_;
+  RandomRangeGeneratorPtr generator_;
   Board board_;
 };
