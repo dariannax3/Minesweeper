@@ -20,6 +20,7 @@ add_library(
   src/Gameboard.cpp
   src/Viewer.cpp
   src/RandomGenerator.cpp
+  src/PlayerInput.cpp
 )
 
 add_executable(
