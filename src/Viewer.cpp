@@ -17,5 +17,5 @@ void StdViewer::drawBoard(const Gameboard& gameboard) {
     std::cout << std::endl;
   }
   std::cout << std::endl;
-  usleep(10000);
+  std::this_thread::sleep_for(std::chrono::microseconds(10000));
 }

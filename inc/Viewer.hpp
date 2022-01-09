@@ -1,8 +1,7 @@
 ﻿#pragma once
-#include <unistd.h>
-
 #include <chrono>
 #include <iostream>
+#include <thread>
 
 #include "Gameboard.hpp"
 

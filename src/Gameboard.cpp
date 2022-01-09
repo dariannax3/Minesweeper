@@ -94,7 +94,7 @@ Field& Gameboard::getFieldAt(int row, int column) {
   return board_[row][column];
 }
 
-void Gameboard::setBomb(const int x, const int y) {
+void Gameboard::setBombAt(const int x, const int y) {
   Field& field = getFieldAt(x, y);
   field.bombility = Bombility::mined;
 }
