@@ -30,10 +30,20 @@ add_executable(
   tests/RandomGeneratorTest.cpp
 )
 
+add_executable(
+  minesweeper
+  src/Gameloop.cpp
+)
+
 target_link_libraries(
   minesweeper-uts
   minesweeper-lib
   gmock_main
+)
+
+target_link_libraries(
+  minesweeper
+  minesweeper-lib
 )
 
 include(GoogleTest)

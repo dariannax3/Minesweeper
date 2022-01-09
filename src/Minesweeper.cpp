@@ -41,6 +41,9 @@ void Minesweeper::executeUserCommand() {
     switch (std::get<0>(commandParameter))
     {
     case CHOOSE:
+        if(gameboard_.getFieldAt(std::get<1>(commandParameter), std::get<2>(commandParameter)).flagability == Flagability::marked || gameboard_.getFieldAt(std::get<1>(commandParameter), std::get<2>(commandParameter)).visibility == Visibility::uncovered ){
+            return;
+        }
         gameboard_.uncoverOneField(std::get<1>(commandParameter), std::get<2>(commandParameter));
         if(gameboard_.getFieldAt(std::get<1>(commandParameter), std::get<2>(commandParameter)).bombility == Bombility::mined){
             gameStatus_ = GameStatus::gameOver;
