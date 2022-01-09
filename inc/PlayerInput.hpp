@@ -3,6 +3,10 @@
 #include <memory>
 #include <tuple>
 
+constexpr char CHOOSE = 'c';
+constexpr char FLAG = 'f';
+constexpr char UNFLAG = 'u';
+
 class PlayerInputI {
  public:
   virtual ~PlayerInputI() {}

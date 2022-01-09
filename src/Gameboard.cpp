@@ -103,3 +103,26 @@ void Gameboard::flagField(const int x, const int y) {
   Field& field = getFieldAt(x, y);
   field.flagability = Flagability::marked;
 };
+
+void Gameboard::unflagField(const int x, const int y) {
+  Field& field = getFieldAt(x, y);
+  if(field.flagability != Flagability::marked)
+  {
+    std::cout << "Field is not flagged" << std::endl;
+  } else {
+    field.flagability = Flagability::unmarked;
+  }
+};
+
+int Gameboard::countLeftFields(){
+  int counter {0};
+   for (auto& row : board_) {
+    for (auto& field : row) {
+      if(field.visibility == Visibility::covered)
+      {
+        counter++;
+      }
+    }
+  }
+  return counter;
+}

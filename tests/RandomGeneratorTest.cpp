@@ -6,8 +6,8 @@
 
 TEST(RandomRangeGeneratorTest,
      GivenRangeFromZeroToTenExpectRandomFromZeroToTen) {
-  StdRandomRangeGenerator random_generator(0, 10);
-  auto generated = random_generator.getRandom();
+  StdRandomRangeGenerator randomGenerator(0, 10);
+  auto generated = randomGenerator.getRandom();
 
   EXPECT_LE(0, generated);
   EXPECT_LE(generated, 10);
@@ -16,16 +16,16 @@ TEST(RandomRangeGeneratorTest,
 TEST(
     RandomRangeGeneratorTest,
     TwiceGeneratedTenRandomsByDifferentGeneratosShouldHaveAtLeastOneDifferentNumber) {
-  StdRandomRangeGenerator random_generator_1(0, 10);
+  StdRandomRangeGenerator randomGenerator1(0, 10);
   std::vector<int> first;
   for (int i = 0; i < 10; i++) {
-    first.push_back(random_generator_1.getRandom());
+    first.push_back(randomGenerator1.getRandom());
   }
 
-  StdRandomRangeGenerator random_generator_2(0, 10);
+  StdRandomRangeGenerator randomGenerator2(0, 10);
   std::vector<int> second;
   for (int i = 0; i < 10; i++) {
-    second.push_back(random_generator_2.getRandom());
+    second.push_back(randomGenerator2.getRandom());
   }
 
   bool are_all_same = true;

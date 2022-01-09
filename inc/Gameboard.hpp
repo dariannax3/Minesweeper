@@ -2,8 +2,6 @@
 
 #include <memory>
 
-#include "RandomGenerator.hpp"
-
 enum class Visibility { covered, uncovered };
 enum class Bombility { empty, mined };
 enum class Flagability { unmarked, marked };
@@ -15,7 +13,7 @@ struct Field {
 };
 
 using Board = std::array<std::array<Field, 8>, 8>;
-using RandomRangeGeneratorPtr = std::shared_ptr<RandomRangeGeneratorI>;
+
 class Gameboard {
  public:
   int getWidth() const;
@@ -28,12 +26,13 @@ class Gameboard {
   void uncoverAllFields();
   void uncoverOneField(const int x, const int y);
   void flagField(const int x, const int y);
+  void unflagField(const int x, const int y);
   const Field& getFieldAt(const int row, const int column) const;
   Field& getFieldAt(const int row, const int column);
+  int countLeftFields();
 
  private:
   void uncoverOneFieldIfPossible(const int x, const int y);
 
-  RandomRangeGeneratorPtr generator_;
   Board board_;
 };
