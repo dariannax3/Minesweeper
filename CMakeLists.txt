@@ -18,6 +18,7 @@ add_library(
   minesweeper-lib
   src/Minesweeper.cpp
   src/Gameboard.cpp
+  src/Viewer.cpp
 )
 
 add_executable(
