@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 
 #include "../inc/Minesweeper.hpp"
-#include "../inc/PlayerInputI.hpp"
+#include "../inc/PlayerInput.hpp"
 
 using ::testing::AtLeast;
 using ::testing::Return;

@@ -1,9 +1,10 @@
 #pragma once
+
 #include <memory>
 #include <string>
 #include <tuple>
 
-#include "../inc/PlayerInputI.hpp"
+#include "../inc/PlayerInput.hpp"
 
 using PlayerPtr = std::shared_ptr<PlayerInputI>;
 

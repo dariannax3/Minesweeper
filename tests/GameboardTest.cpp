@@ -1,22 +1,7 @@
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "../inc/Gameboard.hpp"
 #include "../inc/Viewer.hpp"
-
-using ::testing::Return;
-
-class MockRandomGenerator : public RandomGeneratorI {
- public:
-  MOCK_METHOD(int, getRandom, (), (override));
-};
-
-TEST(RandomGeneratorTest, getRandomTest) {
-  MockRandomGenerator generator;
-  EXPECT_CALL(generator, getRandom()).Times(1).WillOnce(Return(13));
-
-  EXPECT_EQ(generator.getRandom(), 13);
-}
 
 class GameboardTestFixture : public ::testing::Test {
  protected:
@@ -25,14 +10,6 @@ class GameboardTestFixture : public ::testing::Test {
   void printBoard() {
     StdViewer viewer;
     viewer.drawBoard(gameboard);
-  }
-
-  bool isRangeCorrect(int row_start, int row_end, int column_start,
-                      int column_end) {
-    return row_start > gameboard.getHeight() || row_start < 0 ||
-           row_end > gameboard.getHeight() || row_end < 0 ||
-           column_start > gameboard.getWidth() || column_start < 0 ||
-           column_end > gameboard.getWidth() || column_end < 0;
   }
 
   void checkVisibilityOfAllFields(Visibility visibility) {

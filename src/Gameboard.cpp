@@ -11,7 +11,7 @@ void Gameboard::uncoverAllFields() {
 }
 
 bool Gameboard::isFieldInGameboard(const int x, const int y) const {
-  return x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
+  return 0 <= x && x < getWidth() && 0 <= y && y < getHeight();
 }
 
 bool Gameboard::isFieldMined(const int x, const int y) const {
@@ -53,7 +53,7 @@ void Gameboard::uncoverOneField(const int x, const int y) {
 }
 
 int Gameboard::countAdjacentBombAt(const int x, const int y) const {
-  int counter = 0;
+  int counter{0};
 
   if (isFieldMined(x + 1, y)) {
     counter++;
