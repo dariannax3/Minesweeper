@@ -12,15 +12,6 @@ class GameboardTestFixture : public ::testing::Test {
     viewer.drawBoard(gameboard);
   }
 
-<<<<<<< HEAD
-  bool isRangeCorrect(int row_start, int row_end, int column_start,
-                      int column_end) {
-    return row_start > gameboard.getHeight() || row_start < 0 ||
-           row_end > gameboard.getHeight() || row_end < 0 ||
-           column_start > gameboard.getWidth() || column_start < 0 ||
-           column_end > gameboard.getWidth() || column_end < 0;
-  }
-
   void checkVisibilityOfAllFields(Visibility visibility) {
     for (int row = 0; row < gameboard.getHeight(); row++) {
       for (int column = 0; column < gameboard.getWidth(); column++) {
@@ -50,11 +41,6 @@ class GameboardTestFixture : public ::testing::Test {
     gameboard.flagField(x, y);
     gameboard.flagField(x, y + 1);
   }
-=======
-class MockRandomGenerator : public RandomRangeGeneratorI {
- public:
-  MOCK_METHOD(int, getRandom, (), (override));
->>>>>>> Refactor name RandomRangeGenerator
 };
 
 TEST_F(

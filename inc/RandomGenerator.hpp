@@ -14,6 +14,7 @@ class StdRandomRangeGenerator : public RandomRangeGeneratorI {
  public:
   StdRandomRangeGenerator(int lower_boundary, int upper_boundary);
   int getRandom() override;
+  static void setSeedOnlyOnce();
 
  private:
   static void setSeed();
