@@ -1,4 +1,5 @@
 #include "../inc/Minesweeper.hpp"
+
 #include <iostream>
 
 Minesweeper::Minesweeper(PlayerInputPtr playerInput,
@@ -36,51 +37,71 @@ void Minesweeper::generateBoard() {
 }
 
 void Minesweeper::executeUserCommand() {
-    std::tuple<char, int, int> commandParameter = player_->makeMove();
-    
-    switch (std::get<0>(commandParameter))
-    {
+  std::tuple<char, int, int> commandParameter = player_->makeMove();
+
+  switch (std::get<0>(commandParameter)) {
     case CHOOSE:
-        if(gameboard_.getFieldAt(std::get<1>(commandParameter), std::get<2>(commandParameter)).flagability == Flagability::marked || gameboard_.getFieldAt(std::get<1>(commandParameter), std::get<2>(commandParameter)).visibility == Visibility::uncovered ){
-            return;
+      if (gameboard_
+                  .getFieldAt(std::get<1>(commandParameter),
+                              std::get<2>(commandParameter))
+                  .flagability == Flagability::marked ||
+          gameboard_
+                  .getFieldAt(std::get<1>(commandParameter),
+                              std::get<2>(commandParameter))
+                  .visibility == Visibility::uncovered) {
+        return;
+      }
+      gameboard_.uncoverOneField(std::get<1>(commandParameter),
+                                 std::get<2>(commandParameter));
+      if (gameboard_
+              .getFieldAt(std::get<1>(commandParameter),
+                          std::get<2>(commandParameter))
+              .bombility == Bombility::mined) {
+        gameStatus_ = GameStatus::gameOver;
+        gameboard_.uncoverAllFields();
+      } else {
+        if (gameboard_.countLeftFields() == bombsAmount_) {
+          gameStatus_ = GameStatus::win;
+          gameboard_.uncoverAllFields();
         }
-        gameboard_.uncoverOneField(std::get<1>(commandParameter), std::get<2>(commandParameter));
-        if(gameboard_.getFieldAt(std::get<1>(commandParameter), std::get<2>(commandParameter)).bombility == Bombility::mined){
-            gameStatus_ = GameStatus::gameOver;
-            gameboard_.uncoverAllFields(); 
-        } else {
-            if(gameboard_.countLeftFields() == bombsAmount_){
-                gameStatus_ = GameStatus::win;
-                gameboard_.uncoverAllFields();
-            }
-        }
-        break;
+      }
+      break;
     case FLAG:
-        gameboard_.flagField(std::get<1>(commandParameter), std::get<2>(commandParameter));
-        break;
+      gameboard_.flagField(std::get<1>(commandParameter),
+                           std::get<2>(commandParameter));
+      break;
     case UNFLAG:
-        gameboard_.unflagField(std::get<1>(commandParameter), std::get<2>(commandParameter));
-        break;
+      gameboard_.unflagField(std::get<1>(commandParameter),
+                             std::get<2>(commandParameter));
+      break;
     default:
-        break;
-    }
+      std::cout
+          << "Incorrect command. Should be: action position_x position_y.\n"
+          << std::endl;
+      break;
+  }
 }
 
-void Minesweeper::play(){
-    StdViewer viewer;
-    generateBoard();
+void Minesweeper::play() {
+  std::cout << "\nWelcome in Minesweeper!\n To choose a field type: action "
+               "position_x position y\n"
+            << std::endl;
+
+  StdViewer viewer;
+  generateBoard();
+  viewer.drawBoard(gameboard_);
+
+  std::cout << "> ";
+
+  while (getGameStatus() == GameStatus::ongoing) {
+    executeUserCommand();
     viewer.drawBoard(gameboard_);
+  }
 
-    while(getGameStatus() == GameStatus::ongoing) {
-        executeUserCommand();
-        viewer.drawBoard(gameboard_);
-    }
-
-    if(getGameStatus() == GameStatus::win) {
-        viewer.printWin();
-    } 
-    if(getGameStatus() == GameStatus::gameOver) {
-        viewer.printLose();
-    }
-    
+  if (getGameStatus() == GameStatus::win) {
+    viewer.printWin();
+  }
+  if (getGameStatus() == GameStatus::gameOver) {
+    viewer.printLose();
+  }
 }
