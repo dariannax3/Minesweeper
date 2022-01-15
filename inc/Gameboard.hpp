@@ -6,13 +6,16 @@ enum class Visibility { covered, uncovered };
 enum class Bombility { empty, mined };
 enum class Flagability { unmarked, marked };
 
+const int kWidth{8};
+const int kHeight{8};
+
 struct Field {
   Visibility visibility{Visibility::covered};
   Bombility bombility{Bombility::empty};
   Flagability flagability{Flagability::unmarked};
 };
 
-using Board = std::array<std::array<Field, 8>, 8>;
+using Board = std::array<std::array<Field, kWidth>, kHeight>;
 
 class Gameboard {
  public:

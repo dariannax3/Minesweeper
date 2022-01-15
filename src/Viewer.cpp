@@ -31,6 +31,4 @@ void StdViewer::printWin() {
   std::cout << "Congratulation! You won!" << std::endl;
 }
 
-void StdViewer::printLose() {
-  std::cout << "You lose! Try again" << std::endl;
-}
+void StdViewer::printLose() { std::cout << "You lose! Try again" << std::endl; }

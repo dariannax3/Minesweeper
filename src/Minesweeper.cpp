@@ -6,10 +6,15 @@ Minesweeper::Minesweeper(PlayerInputPtr playerInput,
                          RandomRangeGeneratorPtr generator)
     : player_(playerInput), generator_(generator) {}
 
-void deleteBombDuplication(Bombs& generatedBombs) {
-  std::sort(generatedBombs.begin(), generatedBombs.end());
-  auto last = std::unique(generatedBombs.begin(), generatedBombs.end());
-  generatedBombs.erase(last, generatedBombs.end());
+bool isGeneratedPairNew(std::pair<int, int> potentialBomb,
+                        Bombs& generatedBombs) {
+  for (const auto& bomb : generatedBombs) {
+    if (bomb.first == potentialBomb.first &&
+        bomb.second == potentialBomb.second) {
+      return false;
+    }
+  }
+  return true;
 }
 
 Bombs Minesweeper::generateBombs() {
@@ -19,15 +24,17 @@ Bombs Minesweeper::generateBombs() {
   while (generatedBombs.size() < bombsAmount_) {
     int first = generator_->getRandom();
     int second = generator_->getRandom();
-    generatedBombs.emplace_back(std::pair<int, int>(first, second));
-    deleteBombDuplication(generatedBombs);
+    if (isGeneratedPairNew(std::pair<int, int>(first, second),
+                           generatedBombs)) {
+      generatedBombs.emplace_back(std::pair<int, int>(first, second));
+    }
   }
   return generatedBombs;
 }
 
 void Minesweeper::setBombsAtBoard(Bombs& generatedBombs) {
-  for (int i = 0; i < generatedBombs.size(); i++) {
-    gameboard_.setBombAt(generatedBombs[i].first, generatedBombs[i].second);
+  for (const auto& bomb : generatedBombs) {
+    gameboard_.setBombAt(bomb.first, bomb.second);
   }
 }
 
@@ -39,24 +46,20 @@ void Minesweeper::generateBoard() {
 void Minesweeper::executeUserCommand() {
   std::tuple<char, int, int> commandParameter = player_->makeMove();
 
+  int position_x = std::get<1>(commandParameter);
+  int position_y = std::get<2>(commandParameter);
+
   switch (std::get<0>(commandParameter)) {
     case kChoose:
-      if (gameboard_
-                  .getFieldAt(std::get<1>(commandParameter),
-                              std::get<2>(commandParameter))
-                  .flagability == Flagability::marked ||
-          gameboard_
-                  .getFieldAt(std::get<1>(commandParameter),
-                              std::get<2>(commandParameter))
-                  .visibility == Visibility::uncovered) {
+      if (gameboard_.getFieldAt(position_x, position_y).flagability ==
+              Flagability::marked ||
+          gameboard_.getFieldAt(position_x, position_y).visibility ==
+              Visibility::uncovered) {
         return;
       }
-      gameboard_.uncoverOneField(std::get<1>(commandParameter),
-                                 std::get<2>(commandParameter));
-      if (gameboard_
-              .getFieldAt(std::get<1>(commandParameter),
-                          std::get<2>(commandParameter))
-              .bombility == Bombility::mined) {
+      gameboard_.uncoverOneField(position_x, position_y);
+      if (gameboard_.getFieldAt(position_x, position_y).bombility ==
+          Bombility::mined) {
         gameStatus_ = GameStatus::gameOver;
         gameboard_.uncoverAllFields();
       } else {
@@ -67,12 +70,10 @@ void Minesweeper::executeUserCommand() {
       }
       break;
     case kFlag:
-      gameboard_.flagField(std::get<1>(commandParameter),
-                           std::get<2>(commandParameter));
+      gameboard_.flagField(position_x, position_y);
       break;
     case kUnflag:
-      gameboard_.unflagField(std::get<1>(commandParameter),
-                             std::get<2>(commandParameter));
+      gameboard_.unflagField(position_x, position_y);
       break;
     default:
       std::cout
@@ -83,7 +84,7 @@ void Minesweeper::executeUserCommand() {
 }
 
 void Minesweeper::play() {
-  std::cout << "\nWelcome in Minesweeper!\n To kChoose a field type: action "
+  std::cout << "\nWelcome in Minesweeper!\n To choose a field type: action "
                "position_x position y\n"
             << std::endl;
 

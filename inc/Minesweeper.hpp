@@ -36,5 +36,5 @@ class Minesweeper {
   RandomRangeGeneratorPtr generator_;
   Gameboard gameboard_;
   int bombsAmount_{10};
-  GameStatus gameStatus_ {GameStatus::ongoing};
+  GameStatus gameStatus_{GameStatus::ongoing};
 };

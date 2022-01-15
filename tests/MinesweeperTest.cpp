@@ -9,7 +9,7 @@
 using ::testing::AtLeast;
 using ::testing::Return;
 
-constexpr int kMaximumRange{0};
+constexpr int kMaximumRange{8};
 
 class MockPlayerInput : public PlayerInputI {
  public:
@@ -32,8 +32,9 @@ TEST(MinesweeperTest, MakeMovesTest) {
 }
 
 TEST(MinesweeperTest, givenBoardWhenGenerateBoardThanShouldGenerateTenBombs) {
-  Minesweeper minesweeper(std::make_shared<MockPlayerInput>(),
-                          std::make_shared<StdRandomRangeGenerator>(0, kMaximumRange));
+  Minesweeper minesweeper(
+      std::make_shared<MockPlayerInput>(),
+      std::make_shared<StdRandomRangeGenerator>(0, kMaximumRange));
   minesweeper.generateBoard();
   const Gameboard& board = minesweeper.getBoard();
 
@@ -49,10 +50,13 @@ TEST(MinesweeperTest, givenBoardWhenGenerateBoardThanShouldGenerateTenBombs) {
   EXPECT_EQ(bombsCounter, 10);
 }
 
-TEST(MinesweeperTest,
+TEST(
+    MinesweeperTest,
     givenBombAtLeftTopCornerWhenPlayerClicksAdjacentFieldAndBombFieldThenGameStatusIsGameOver) {
-  std::shared_ptr<MockPlayerInput> fakePlayerInput(std::make_shared<MockPlayerInput>());
-  std::shared_ptr<MockRandomRangeGenerator> fakeGenerator(std::make_shared<MockRandomRangeGenerator>());
+  std::shared_ptr<MockPlayerInput> fakePlayerInput(
+      std::make_shared<MockPlayerInput>());
+  std::shared_ptr<MockRandomRangeGenerator> fakeGenerator(
+      std::make_shared<MockRandomRangeGenerator>());
 
   Minesweeper minesweeper(fakePlayerInput, fakeGenerator);
   EXPECT_CALL(*fakeGenerator, getRandom())
@@ -93,15 +97,19 @@ TEST(MinesweeperTest,
 
   for (int row = 0; row < gameboard.getHeight(); row++) {
     for (int column = 0; column < gameboard.getWidth(); column++) {
-      EXPECT_EQ(gameboard.getFieldAt(row, column).visibility, Visibility::uncovered);
+      EXPECT_EQ(gameboard.getFieldAt(row, column).visibility,
+                Visibility::uncovered);
     }
   }
 }
 
-TEST(MinesweeperTest,
+TEST(
+    MinesweeperTest,
     givenBombAtLeftTopCornerWhenPlayerClicksAdjacentFieldAndEmptyFieldThenGameStatusWin) {
-  std::shared_ptr<MockPlayerInput> fakePlayerInput(std::make_shared<MockPlayerInput>());
-  std::shared_ptr<MockRandomRangeGenerator> fakeGenerator(std::make_shared<MockRandomRangeGenerator>());
+  std::shared_ptr<MockPlayerInput> fakePlayerInput(
+      std::make_shared<MockPlayerInput>());
+  std::shared_ptr<MockRandomRangeGenerator> fakeGenerator(
+      std::make_shared<MockRandomRangeGenerator>());
 
   Minesweeper minesweeper(fakePlayerInput, fakeGenerator);
   EXPECT_CALL(*fakeGenerator, getRandom())
@@ -142,7 +150,8 @@ TEST(MinesweeperTest,
 
   for (int row = 0; row < gameboard.getHeight(); row++) {
     for (int column = 0; column < gameboard.getWidth(); column++) {
-      EXPECT_EQ(gameboard.getFieldAt(row, column).visibility, Visibility::uncovered);
+      EXPECT_EQ(gameboard.getFieldAt(row, column).visibility,
+                Visibility::uncovered);
     }
   }
 }

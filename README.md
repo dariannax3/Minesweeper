@@ -7,7 +7,7 @@ or bombs without detonating any of them.
 Rules are very simple. The board is divided into cells, with mines randomly distributed. 
 To win, you need to open all the cells. The number on a cell shows the number of mines adjacent to it. 
 Using this information, you can determine cells that are safe, and cells that contain mines. 
-Cells suspected of being mines can be marked with a kFlag using the right mouse button.
+Cells suspected of being mines can be marked with a flag using the right mouse button.
 
 # Git user attention
 1. Clone the repo from GitHub
@@ -28,11 +28,11 @@ Our Minesweeper game is a terminal version.
 Write in console command in style: **action position_x position_y** where position_x is a selected row and position_y is a selected column.
 
 Action could be:
-- **c** -> kChoose field
-- **f** -> mark filed with kFlag
+- **c** -> choose field
+- **f** -> mark filed with flag
 - **u** -> unmark field
 
-For example to kChoose top left corner type:  
+For example to choose top left corner type:  
           
           $  c 0 0
          
