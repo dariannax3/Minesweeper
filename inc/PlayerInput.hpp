@@ -3,9 +3,9 @@
 #include <memory>
 #include <tuple>
 
-constexpr char CHOOSE = 'c';
-constexpr char FLAG = 'f';
-constexpr char UNFLAG = 'u';
+constexpr char kChoose = 'c';
+constexpr char kFlag = 'f';
+constexpr char kUnflag = 'u';
 
 class PlayerInputI {
  public:

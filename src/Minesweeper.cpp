@@ -40,7 +40,7 @@ void Minesweeper::executeUserCommand() {
   std::tuple<char, int, int> commandParameter = player_->makeMove();
 
   switch (std::get<0>(commandParameter)) {
-    case CHOOSE:
+    case kChoose:
       if (gameboard_
                   .getFieldAt(std::get<1>(commandParameter),
                               std::get<2>(commandParameter))
@@ -66,11 +66,11 @@ void Minesweeper::executeUserCommand() {
         }
       }
       break;
-    case FLAG:
+    case kFlag:
       gameboard_.flagField(std::get<1>(commandParameter),
                            std::get<2>(commandParameter));
       break;
-    case UNFLAG:
+    case kUnflag:
       gameboard_.unflagField(std::get<1>(commandParameter),
                              std::get<2>(commandParameter));
       break;
@@ -83,7 +83,7 @@ void Minesweeper::executeUserCommand() {
 }
 
 void Minesweeper::play() {
-  std::cout << "\nWelcome in Minesweeper!\n To choose a field type: action "
+  std::cout << "\nWelcome in Minesweeper!\n To kChoose a field type: action "
                "position_x position y\n"
             << std::endl;
 
@@ -91,9 +91,8 @@ void Minesweeper::play() {
   generateBoard();
   viewer.drawBoard(gameboard_);
 
-  std::cout << "> ";
-
   while (getGameStatus() == GameStatus::ongoing) {
+    std::cout << kPrompt;
     executeUserCommand();
     viewer.drawBoard(gameboard_);
   }

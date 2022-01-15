@@ -9,6 +9,8 @@
 using ::testing::AtLeast;
 using ::testing::Return;
 
+constexpr int kMaximumRange{0};
+
 class MockPlayerInput : public PlayerInputI {
  public:
   MOCK_METHOD((std::tuple<char, int, int>), makeMove, (), (override));
@@ -31,7 +33,7 @@ TEST(MinesweeperTest, MakeMovesTest) {
 
 TEST(MinesweeperTest, givenBoardWhenGenerateBoardThanShouldGenerateTenBombs) {
   Minesweeper minesweeper(std::make_shared<MockPlayerInput>(),
-                          std::make_shared<StdRandomRangeGenerator>(0, 8));
+                          std::make_shared<StdRandomRangeGenerator>(0, kMaximumRange));
   minesweeper.generateBoard();
   const Gameboard& board = minesweeper.getBoard();
 

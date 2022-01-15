@@ -148,7 +148,6 @@ TEST_F(
 TEST_F(GameboardTestFixture, givenBoardWithOneBombWhenUncoverEmptyFieldsThenCounterShouldEqualOne) {
   gameboard.setBombAt(0,0);
   gameboard.uncoverOneField(3,1);
-  printBoard();
   EXPECT_EQ(gameboard.countLeftFields(), 1);
 }
 

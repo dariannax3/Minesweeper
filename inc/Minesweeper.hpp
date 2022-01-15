@@ -12,6 +12,8 @@
 #include "../inc/RandomGenerator.hpp"
 #include "../inc/Viewer.hpp"
 
+const std::string kPrompt{"> "};
+
 using PlayerInputPtr = std::shared_ptr<PlayerInputI>;
 using RandomRangeGeneratorPtr = std::shared_ptr<RandomRangeGeneratorI>;
 using Bombs = std::vector<std::pair<int, int>>;
