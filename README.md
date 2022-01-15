@@ -38,4 +38,3 @@ For example to choose top left corner type:
          
 # Prerequisites
 - cmake version 3.14
-

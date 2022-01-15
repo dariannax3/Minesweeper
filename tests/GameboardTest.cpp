@@ -57,7 +57,6 @@ TEST_F(
   EXPECT_EQ(gameboard.getFieldAt(0, 0).bombility, Bombility::mined);
   EXPECT_TRUE(gameboard.isFieldAdjacentToBomb(1, 1));
   EXPECT_FALSE(gameboard.isFieldAdjacentToBomb(1, 2));
-
   gameboard.setBombAt(3, 2);
   EXPECT_TRUE(gameboard.isFieldAdjacentToBomb(2, 1));
 }
@@ -131,4 +130,35 @@ TEST_F(
   checkVisibilityOfSpecificRowsAndFields(4, 7, 0, 7, Visibility::covered);
 
   EXPECT_TRUE(gameboard.getFieldAt(1, 4).flagability == Flagability::marked);
+}
+
+TEST_F(GameboardTestFixture, givenBoardWithFlagFieldWhenUnmarkShouldBeCovered) {
+  gameboard.flagField(1, 1);
+  EXPECT_TRUE(gameboard.getFieldAt(1, 1).flagability == Flagability::marked);
+  gameboard.unflagField(1, 1);
+  EXPECT_TRUE(gameboard.getFieldAt(1, 1).flagability == Flagability::unmarked);
+  EXPECT_TRUE(gameboard.getFieldAt(1, 1).visibility == Visibility::covered);
+}
+
+TEST_F(GameboardTestFixture,
+       givenBoardWithOneBombWhenUncoverEmptyFieldsThenCounterShouldEqualOne) {
+  gameboard.setBombAt(0, 0);
+  gameboard.uncoverOneField(3, 1);
+  EXPECT_EQ(gameboard.countLeftFields(), 1);
+}
+
+TEST_F(GameboardTestFixture,
+       givenBoardWithOneBombWhenClickAdjacentFieldsThenUncoverOneField) {
+  gameboard.setBombAt(1, 1);
+  gameboard.uncoverOneField(1, 2);
+  EXPECT_TRUE(gameboard.getFieldAt(1, 3).visibility == Visibility::covered);
+}
+
+TEST_F(
+    GameboardTestFixture,
+    givenBoardWithOneBombAndOneFlagWhenClickEmptyFieldsThanUncoverAllFieldsWithoutFlagged) {
+  gameboard.setBombAt(0, 0);
+  gameboard.flagField(6, 6);
+  gameboard.uncoverOneField(1, 2);
+  EXPECT_TRUE(gameboard.getFieldAt(6, 6).visibility == Visibility::covered);
 }
